@@ -1,0 +1,64 @@
+body {
+    text-align: center;
+}
+
+.scoreLevel{
+    color: black;
+    font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+    font-size: 4vh;
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid cornflowerblue;
+    border-radius: 3px;
+}
+
+.msg{
+    font-size: 25px;
+    color: brown;
+}
+.sect{
+	font-size: 30px;
+    color: green;
+	animation-name: rubberBand;
+	-webkit-backface-visibility: visible !important;
+	backface-visibility: visible !important;
+	animation-duration: 0.5s;
+}
+canvas{
+    height: 91%;
+    margin: 0;
+    padding: 0;
+    bottom: 2px;
+    position: relative;
+}
+
+
+@keyframes rubberBand {
+	from {
+		transform: scale3d(1, 1, 1);
+	}
+
+	30% {
+		transform: scale3d(1.25, 0.75, 1);
+	}
+
+	40% {
+		transform: scale3d(0.75, 1.25, 1);
+	}
+
+	50% {
+		transform: scale3d(1.15, 0.85, 1);
+	}
+
+	65% {
+		transform: scale3d(.95, 1.05, 1);
+	}
+
+	75% {
+		transform: scale3d(1.05, .95, 1);
+	}
+
+	to {
+		transform: scale3d(1, 1, 1);
+	}
+}
