@@ -1,7 +1,21 @@
 body {
     text-align: center;
 }
+.continue {
+  	font-size: 4vh;
+    font-weight: bold;
+    width: 50%;
+    height: auto;
+    background: transparent;
+    padding: 3%;
+    margin: 5%;
+    border: 2px solid green;
+}
 
+.continue:hover{
+	color: white;
+	background: lime 
+}
 .scoreLevel{
     color: black;
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
@@ -32,7 +46,56 @@ canvas{
     position: relative;
 }
 
+.overlay {
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 0, 0, 0.7);
+	transition: opacity 500ms;
+	visibility: hidden;
+	opacity: 0;
+}
 
+.overlay:target {
+	visibility: visible;
+	opacity: 1;
+}
+.show {
+	visibility: visible !important;
+	opacity: 100 !important;
+}
+
+
+#welcome,
+#congrats{
+    border: 1px solid #dbe8ea;
+    margin: 10% 10% auto;
+    padding: 20px;
+    background: #f1e2e2;
+    border-radius: 5px;
+    width: 70%;
+    position: absolute;
+    transition: all 5s ease-in-out;
+    font-family: 'Gloria Hallelujah', cursive;
+}
+
+.close1,
+.close2{
+	font-size: 6vh;
+    text-align: right;
+    color: red;
+    position: inherit;
+    font-weight: bold;
+    left: 92%;
+    bottom: 70%;
+}
+.close1:hover,
+.close2:hover{
+	cursor: pointer;
+}
 @keyframes rubberBand {
 	from {
 		transform: scale3d(1, 1, 1);

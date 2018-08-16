@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Effective JavaScript: Frogger</title>
+    <title>Abiodun's Frogger Arcade Game</title>
     <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -13,6 +13,35 @@
     <section>
         <div id="msg" class="msg"></div>
     </section>
+
+    <div id="pop1" class="overlay">
+        <div id="welcome">
+            <span class="close1">x</span>
+            <h1>Welcome to Abiodun's Frogger Arcade Game</h1>
+            <h2>Game Play</h2>
+            <h3>Aim is to get to the blue water tiles without being touched by bugs. <br>For each successful trip to the water
+                tiles, you score <strong>5 points</strong> and the game level/difficulty is increased by one.<br> For each
+                time you are hit by a bug, you loose <strong>0.5 point</strong> and you are taken back to the starting point.
+            </h3>
+            <h2>Navigation</h2>
+            <h3>For touch screen devices You can swipe up/down/left/right to move across the road... <br>For laptop computers,
+                use the arow up/down/left/right keys to navigate</h3>
+
+            <input class='continue' type="submit" value="Continue">
+        </div>
+    </div>
+    <div id="pop2" class="overlay">
+        <div id="congrats">
+            <span class="close2">x</span>
+            <h2>🥂Congratulations🥂</h2>
+            <h3>You made it!</h3>
+            <br>
+            <div id="results"></div>
+        </div>
+    </div>
+    <audio id="bgtrack">
+        <source src="resources/adventurers.mp3" type="audio/mpeg"> Your browser does not support the audio element.
+    </audio>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>

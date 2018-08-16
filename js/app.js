@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", function (event) {
+    // - Code to execute when all DOM content is loaded. 
+    // - including fonts, images, etc.
+    modal.classList.add('show');
+    var vid = document.getElementById("bgtrack");
+    vid.autoplay = true;
+    vid.load();
+    vid.volume = 1;
+});
+
 // Enemies our player must avoid
 let Enemy = function (x, y, speed) {
     // letiables applied to each of our instances go here,
@@ -34,12 +44,12 @@ Enemy.prototype.update = function (dt) {
         player.y = 405;
         score -= 0.5;
         gainLoosePoint.classList.add("sect");
-        gainLoosePoint.innerHTML = '<text style="color:red"> Oh no, you just loose 0.5 score, try to avoid the bug</text>';
+        gainLoosePoint.innerHTML = '<text style="color:red"> Oh no, you just loose 0.5 score, try to avoid the bugs</text>';
         setTimeout(function () {
             gainLoosePoint.classList.remove("sect");
             gainLoosePoint.innerText = randomValue();
             console.log(randomValue());
-        }, 3000);
+        }, 5000);
     }
 };
 
@@ -87,15 +97,16 @@ Player.prototype.handleInput = function (keyPress) {
             level++;
             score += 5;
             gainLoosePoint.classList.add("sect");
-            gainLoosePoint.innerText = 'Yeah!, way to go, +5 score added. You are a level up!';
+            gainLoosePoint.innerText = 'Yeah!, way to go, you gained 5 point. You are a level up!';
 
             setTimeout(function () {
                 gainLoosePoint.classList.remove("sect");
                 gainLoosePoint.innerText = randomValue();
-            }, 2500);
+            }, 5000);
             console.log(level);
             console.log(randomValue());
             moreBugs(level);
+
         }
     }
 
@@ -133,9 +144,17 @@ function nextStep() {
 // Function to display player's score
 var displayScoreLevel = function (aScore, aLevel) {
     // add player score and level to div element created
-    scoreLevelDiv.innerHTML = '<h3><span class="scoreLevel">Score: ' + aScore
-        + '</span> <span class="scoreLevel">Level: ' + aLevel + '</span></h3>';
-    document.body.firstElementChild.appendChild(scoreLevelDiv);//, firstCanvasTag[0]);
+    if (aLevel === 20) {
+        allEnemies = [];
+        level = 1;
+        modal2.classList.add('show');
+        document.getElementById('results').innerHTML = `<h3> Your final score is ` + aScore + `<br> Only few geniuses made it through the 20 Levels, you are one of them.</h3>`
+        document.removeEventListener('keyup', pressedKeys);
+        document.removeEventListener("touchstart", startTouch);
+    }
+    scoreLevelDiv.innerHTML = `<h3><span class="scoreLevel">Score: ` + aScore
+        + `</span> <span class="scoreLevel">Level: ` + aLevel + `</span></h3><br><br><br> <h3>You have ` + (20 - aLevel) + ` Level(s) more to Victory!<h3>`;
+    document.body.firstElementChild.appendChild(scoreLevelDiv);
 };
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -155,7 +174,7 @@ let waitingArray = [
     "🤪..Not bad at all...",
     "..ok 🤩, i believe in you...",
     "😏...this level shouldn't scare you...",
-    "You are dong fine.. 😁",
+    "You are doing fine.. 😁",
     "..aim for a 😲higher score.."
 ];
 let randomValue = function () {
@@ -175,7 +194,6 @@ let player = new Player(202, 405);
 let moreBugs = function (numEnemies) {
     // remove all previous enemies on canvas
     allEnemies.length = 0;
-
     // load new set of enemies
     for (var i = 0; i <= numEnemies; i++) {
         var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
@@ -183,9 +201,7 @@ let moreBugs = function (numEnemies) {
     }
 };
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function (e) {
+function pressedKeys(e) {
     let allowedKeys = {
         37: 'left',
         38: 'up',
@@ -194,7 +210,10 @@ document.addEventListener('keyup', function (e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+// This listens for key presses and sends the keys to your
+// Player.handleInput() method. You don't need to modify this.
+document.addEventListener('keyup', pressedKeys);
 
 
 document.addEventListener("touchstart", startTouch, false);
@@ -210,6 +229,7 @@ function startTouch(e) {
 };
 
 function moveTouch(e) {
+
     if (initialX === null) {
         return;
     }
@@ -226,18 +246,18 @@ function moveTouch(e) {
 
     if (Math.abs(diffX) > Math.abs(diffY)) {
         // sliding horizontally
-        if (diffX > 0) {
+        if (diffX > 0 && player.x > 0 ) {
             // swiped left
             console.log("swiped left");
             player.x -= 102;
-        } else {
+        } if(diffX < 0 && player.x < 405) {
             // swiped right
             console.log("swiped right");
             player.x += 102;
         }
     } else {
         // sliding vertically
-        if (diffY > 0) {
+        if (diffY > 0 && player.y > 0) {
             // swiped up
             console.log("swiped up");
             player.y -= 83;
@@ -260,7 +280,7 @@ function moveTouch(e) {
                 }, 800);
             }
 
-        } else {
+        } if(diffY < 0 && player.y < 405) {
             // swiped down
             console.log("swiped down");
             player.y += 83;
@@ -272,3 +292,32 @@ function moveTouch(e) {
 
     //e.preventDefault();
 };
+let modal = document.querySelector('#pop1');
+let modal2 = document.querySelector('#pop2');
+let closeicon = document.querySelector(".close1");
+let closeicon2 = document.querySelector(".close2");
+let closeicon3 = document.querySelector(".continue");
+
+
+closeicon.addEventListener("click", function (e) {
+    modal.classList.remove('show');
+});
+closeicon2.addEventListener("click", function (e) {
+    modal2.classList.remove('show');
+    resetGame();
+});
+closeicon3.addEventListener("click", function (e) {
+    modal.classList.remove('show');
+});
+function resetGame() {
+    level = 1;
+    score = 0;
+    allEnemies = [];
+    enemyLocation = [63, 147, 230];
+    enemyLocation.forEach(function (locationY) {
+        enemy = new Enemy(0, locationY, 200);
+        allEnemies.push(enemy);
+    });
+    document.addEventListener('keyup', pressedKeys);
+    document.addEventListener("touchstart", startTouch, false);
+}
