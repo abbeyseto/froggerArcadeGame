@@ -78,19 +78,15 @@ Player.prototype.render = function () {
 // a handleInput() method.
 Player.prototype.handleInput = function (keyPress) {
 
-    // Enables user on left arrow key to move left on the x axis by 102
-    // Also enables user not to go off the game tiles on the left side
+
     if (keyPress == 'left' && this.x > 0) {
         this.x -= 102;
     }
 
-    // Enables user on right arrow key to move right on the x axis by 102
-    // Also enables user not to go off the game tiles on the right side
     if (keyPress == 'right' && this.x < 405) {
         this.x += 102;
     }
 
-    // Enables user on up arrow key to move upwards on the y axis by 83
     if (keyPress == 'up' && this.y > 0) {
         this.y -= 83;
         if (this.y < 0) {
@@ -110,13 +106,10 @@ Player.prototype.handleInput = function (keyPress) {
         }
     }
 
-    // Enables user on down arrow key to move downwards on the y axis by 83
-    // Also enables user not to go off the game tiles on the bottom side
     if (keyPress == 'down' && this.y < 405) {
         this.y += 83;
     }
-    // Once the user reaches the top of the page; the water, the user is
-    // Instantly reset to the starting position
+    // returns player back to starting position when player reaches the water
     if (this.y < 0) {
         setTimeout(() => {
             this.x = 202;
@@ -143,7 +136,7 @@ function nextStep() {
 }
 // Function to display player's score
 var displayScoreLevel = function (aScore, aLevel) {
-    // add player score and level to div element created
+    //call up congratulations modal when user reaches level 20 of the game and reset all progress values
     if (aLevel === 20) {
         allEnemies = [];
         level = 1;
@@ -160,12 +153,11 @@ var displayScoreLevel = function (aScore, aLevel) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-// All enemies are placed in an array
 let level = 1;
 let allEnemies = [];
 let score = 0;
 let scoreLevelDiv = document.createElement('div');
-// Location of the 3 enemies on the y axis on the pavement
+// Location of the 3 enemies
 let enemyLocation = [63, 147, 230];
 let gainLoosePoint = document.getElementById('msg');
 let waitingArray = [
@@ -181,8 +173,7 @@ let randomValue = function () {
     let me = waitingArray[Math.floor(Math.random() * waitingArray.length)];
     return me;
 }
-// For each enemy located on the y axis from 0 on the x axis move at a speed of 200 
-// Until randomly regenerated in the enemy update function above
+
 enemyLocation.forEach(function (locationY) {
     enemy = new Enemy(0, locationY, 200);
     allEnemies.push(enemy);
@@ -246,11 +237,11 @@ function moveTouch(e) {
 
     if (Math.abs(diffX) > Math.abs(diffY)) {
         // sliding horizontally
-        if (diffX > 0 && player.x > 0 ) {
+        if (diffX > 0 && player.x > 0) {
             // swiped left
             console.log("swiped left");
             player.x -= 102;
-        } if(diffX < 0 && player.x < 405) {
+        } if (diffX < 0 && player.x < 405) {
             // swiped right
             console.log("swiped right");
             player.x += 102;
@@ -280,7 +271,7 @@ function moveTouch(e) {
                 }, 800);
             }
 
-        } if(diffY < 0 && player.y < 405) {
+        } if (diffY < 0 && player.y < 405) {
             // swiped down
             console.log("swiped down");
             player.y += 83;
