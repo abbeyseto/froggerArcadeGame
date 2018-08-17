@@ -21,7 +21,9 @@ To run the application:
 	* git clone [https://github.com/abbeyseto/froggerArcadeGame.git](https://github.com/abbeyseto/froggerArcadeGame.git/)
 2. Open a browser window and navigate to the index.html file in your application's directory.
 
-## Tools / Techniques
+To view live deployment:
+
+* Click on this link [https://abbeyseto.github.io/froggerArcadeGame/index.html] (https://abbeyseto.github.io/froggerArcadeGame/index.html)
 
 
 ## List of Resources

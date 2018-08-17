@@ -1,6 +1,7 @@
 body {
     text-align: center;
 }
+
 .continue {
   	font-size: 4vh;
     font-weight: bold;
@@ -12,11 +13,12 @@ body {
     border: 2px solid green;
 }
 
-.continue:hover{
+.continue:hover {
 	color: white;
 	background: lime 
 }
-.scoreLevel{
+
+.scoreLevel {
     color: black;
     font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
     font-size: 4vh;
@@ -26,11 +28,12 @@ body {
     border-radius: 3px;
 }
 
-.msg{
+.msg {
     font-size: 25px;
     color: brown;
 }
-.sect{
+
+.sect {
 	font-size: 30px;
     color: green;
 	animation-name: rubberBand;
@@ -38,7 +41,8 @@ body {
 	backface-visibility: visible !important;
 	animation-duration: 0.5s;
 }
-canvas{
+
+canvas {
     height: 91%;
     margin: 0;
     padding: 0;
@@ -63,14 +67,14 @@ canvas{
 	visibility: visible;
 	opacity: 1;
 }
+
 .show {
 	visibility: visible !important;
 	opacity: 100 !important;
 }
 
 
-#welcome,
-#congrats{
+.modalMsg {
     border: 1px solid #dbe8ea;
     margin: 10% 10% auto;
     padding: 20px;
@@ -79,11 +83,11 @@ canvas{
     width: 70%;
     position: absolute;
     transition: all 5s ease-in-out;
-    font-family: 'Gloria Hallelujah', cursive;
+    font-family: 'Gloria Hallelujah';
 }
 
 .close1,
-.close2{
+.close2 {
 	font-size: 6vh;
     text-align: right;
     color: red;
@@ -92,10 +96,12 @@ canvas{
     left: 92%;
     bottom: 70%;
 }
+
 .close1:hover,
-.close2:hover{
+.close2:hover {
 	cursor: pointer;
 }
+
 @keyframes rubberBand {
 	from {
 		transform: scale3d(1, 1, 1);

@@ -1,5 +1,7 @@
+"use strict";
+
 document.addEventListener("DOMContentLoaded", function (event) {
-    // - Code to execute when all DOM content is loaded. 
+    // - Code to execute when all DOM content is loaded.
     // - including fonts, images, etc.
     modal.classList.add('show');
     var vid = document.getElementById("bgtrack");
@@ -7,10 +9,46 @@ document.addEventListener("DOMContentLoaded", function (event) {
     vid.load();
     vid.volume = 1;
 });
+let modal = document.querySelector('#pop1');
+let modal2 = document.querySelector('#pop2');
+let closeicon = document.querySelector(".close1");
+let closeicon2 = document.querySelector(".close2");
+let closeicon3 = document.querySelector(".continue");
+// Now write your own player class
+let Player = function (x, y) {
+    this.x = x;
+    this.y = y;
+    //The image of the player of boy is added to the playing field
+    this.sprite = 'images/char-boy.png';
+};
+const player = new Player(202, 405);
+// Now instantiate your objects.
+// Place all enemy objects in an array called allEnemies
+// Place the player object in a variable called player
 
+let level = 1;
+let allEnemies = [];
+let score = 0;
+let scoreLevelDiv = document.createElement('div');
+// Location of the 3 enemies
+let enemyLocation = [63, 147, 230];
+let gainLoosePoint = document.getElementById('msg');
+let winArray = [
+    "🤔..thinking...",
+    "...you can do it 😉...",
+    "🤪..Not bad at all...",
+    "..ok 🤩, i believe in you...",
+    "😏...this level shouldn't scare you...",
+    "You are doing fine.. 😁",
+    "..aim for a 😲higher score.."
+];
+let randomValue = function () {
+    let winString = winArray[Math.floor(Math.random() * winArray.length)];
+    return winString;
+}
 // Enemies our player must avoid
-let Enemy = function (x, y, speed) {
-    // letiables applied to each of our instances go here,
+const Enemy = function (x, y, speed) {
+    // variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
     this.y = y;
@@ -36,12 +74,11 @@ Enemy.prototype.update = function (dt) {
 
 
     // Check for collision with enemies or barrier-walls
-    if (player.x < this.x + 40 &&
-        player.x + 40 > this.x &&
-        player.y < this.y + 30 &&
-        30 + player.y > this.y) {
-        player.x = 202;
-        player.y = 405;
+    if (player.x < this.x + 80 &&
+        player.x + 80 > this.x &&
+        player.y < this.y + 50 &&
+        50 + player.y > this.y) {
+        player.reset();
         score -= 0.5;
         gainLoosePoint.classList.add("sect");
         gainLoosePoint.innerHTML = '<text style="color:red"> Oh no, you just loose 0.5 score, try to avoid the bugs</text>';
@@ -58,19 +95,14 @@ Enemy.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-let Player = function (x, y) {
-    this.x = x;
-    this.y = y;
-    //The image of the player of boy is added to the playing field 
-    this.sprite = 'images/char-boy.png';
-};
-
 // This class requires an update(), render() and
 Player.prototype.update = function (dt) {
 
 };
-
+Player.prototype.reset = function () {
+    player.x = 202;
+    player.y = 405;
+};
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     displayScoreLevel(score, level);
@@ -90,19 +122,7 @@ Player.prototype.handleInput = function (keyPress) {
     if (keyPress == 'up' && this.y > 0) {
         this.y -= 83;
         if (this.y < 0) {
-            level++;
-            score += 5;
-            gainLoosePoint.classList.add("sect");
-            gainLoosePoint.innerText = 'Yeah!, way to go, you gained 5 point. You are a level up!';
-
-            setTimeout(function () {
-                gainLoosePoint.classList.remove("sect");
-                gainLoosePoint.innerText = randomValue();
-            }, 5000);
-            console.log(level);
-            console.log(randomValue());
-            moreBugs(level);
-
+            nextLevel();
         }
     }
 
@@ -112,85 +132,62 @@ Player.prototype.handleInput = function (keyPress) {
     // returns player back to starting position when player reaches the water
     if (this.y < 0) {
         setTimeout(() => {
-            this.x = 202;
-            this.y = 405;
+            player.reset();
         }, 800);
 
     }
 };
-function nextStep() {
-    if (this.y < 0) {
-        level++;
-        score += 5;
-        gainLoosePoint.classList.add("sect");
-        gainLoosePoint.innerText = 'Yeah!, way to go, +5 score added. You are a level up!';
 
-        setTimeout(function () {
-            gainLoosePoint.classList.remove("sect");
-            gainLoosePoint.innerText = randomValue();
-        }, 2500);
-        console.log(level);
-        console.log(randomValue());
-        moreBugs(level);
-    }
-}
 // Function to display player's score
-var displayScoreLevel = function (aScore, aLevel) {
+let displayScoreLevel = function (aScore, aLevel) {
     //call up congratulations modal when user reaches level 20 of the game and reset all progress values
     if (aLevel === 20) {
         allEnemies = [];
         level = 1;
         modal2.classList.add('show');
-        document.getElementById('results').innerHTML = `<h3> Your final score is ` + aScore + `<br> Only few geniuses made it through the 20 Levels, you are one of them.</h3>`
+        document.getElementById('results').innerHTML = '<h3> Your final score is ' + aScore + '<br> Only few geniuses made it through the 20 Levels, you are one of them.</h3>'
         document.removeEventListener('keyup', pressedKeys);
         document.removeEventListener("touchstart", startTouch);
     }
-    scoreLevelDiv.innerHTML = `<h3><span class="scoreLevel">Score: ` + aScore
-        + `</span> <span class="scoreLevel">Level: ` + aLevel + `</span></h3><br><br><br> <h3>You have ` + (20 - aLevel) + ` Level(s) more to Victory!<h3>`;
+    scoreLevelDiv.innerHTML = '<h3><span class="scoreLevel">Score: ' + aScore
+        + '</span> <span class="scoreLevel">Level: ' + aLevel + '</span></h3><br><br><br> <h3>You have ' + (20 - aLevel) + ' Level(s) more to Victory!<h3>';
     document.body.firstElementChild.appendChild(scoreLevelDiv);
 };
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-
-let level = 1;
-let allEnemies = [];
-let score = 0;
-let scoreLevelDiv = document.createElement('div');
-// Location of the 3 enemies
-let enemyLocation = [63, 147, 230];
-let gainLoosePoint = document.getElementById('msg');
-let waitingArray = [
-    "🤔..thinking...",
-    "...you can do it 😉...",
-    "🤪..Not bad at all...",
-    "..ok 🤩, i believe in you...",
-    "😏...this level shouldn't scare you...",
-    "You are doing fine.. 😁",
-    "..aim for a 😲higher score.."
-];
-let randomValue = function () {
-    let me = waitingArray[Math.floor(Math.random() * waitingArray.length)];
-    return me;
-}
 
 enemyLocation.forEach(function (locationY) {
-    enemy = new Enemy(0, locationY, 200);
+    let enemy = new Enemy(0, locationY, 200);
     allEnemies.push(enemy);
 });
 
 // The starting location of the player is located at x=200, y=405
-let player = new Player(202, 405);
 
 let moreBugs = function (numEnemies) {
     // remove all previous enemies on canvas
     allEnemies.length = 0;
     // load new set of enemies
     for (var i = 0; i <= numEnemies; i++) {
-        var enemy = new Enemy(0, Math.random() * 184 + 50, Math.random() * 256);
+        var enemy = new Enemy(0, Math.random() * 184 + 50, 100+ Math.random() * 256);
         allEnemies.push(enemy);
     }
 };
+
+function nextLevel() {
+    level++;
+    score += 5;
+    gainLoosePoint.classList.add("sect");
+    gainLoosePoint.innerText = 'Yeah!, way to go, you gained 5 point. You are a level up!';
+
+    setTimeout(function () {
+        gainLoosePoint.classList.remove("sect");
+        gainLoosePoint.innerText = randomValue();
+    }, 2500);
+    console.log(level);
+    console.log(randomValue());
+    moreBugs(level);
+    setTimeout(() => {
+        player.reset();
+    }, 800);
+}
 
 function pressedKeys(e) {
     let allowedKeys = {
@@ -253,22 +250,7 @@ function moveTouch(e) {
             console.log("swiped up");
             player.y -= 83;
             if (player.y < 0) {
-                level++;
-                score += 5;
-                gainLoosePoint.classList.add("sect");
-                gainLoosePoint.innerText = 'Yeah!, way to go, +5 score added. You are a level up!';
-
-                setTimeout(function () {
-                    gainLoosePoint.classList.remove("sect");
-                    gainLoosePoint.innerText = randomValue();
-                }, 2500);
-                console.log(level);
-                console.log(randomValue());
-                moreBugs(level);
-                setTimeout(() => {
-                    player.x = 202;
-                    player.y = 405;
-                }, 800);
+                nextLevel();
             }
 
         } if (diffY < 0 && player.y < 405) {
@@ -283,12 +265,6 @@ function moveTouch(e) {
 
     //e.preventDefault();
 };
-let modal = document.querySelector('#pop1');
-let modal2 = document.querySelector('#pop2');
-let closeicon = document.querySelector(".close1");
-let closeicon2 = document.querySelector(".close2");
-let closeicon3 = document.querySelector(".continue");
-
 
 closeicon.addEventListener("click", function (e) {
     modal.classList.remove('show');
