@@ -5,7 +5,7 @@
 This Frogger Arcade is a variation of the classic Frogger arcade game.
 
 #### Goals/Winning
-The aim is to get the hero character to move across the bricks to the water without getting hit by the enemy bugs. The user's score increases by 5 points for each level passed. 
+The aim is to get the player character to move across the bricks to the water tiles without getting hit by the enemy bugs. The player's score increases by 5 points for each level passed. 
 
 The number of enemy bugs also increases as the level increases 🤪.
 
